@@ -1,29 +1,47 @@
 package com.gmail.yunussimulya.ghibli;
 
-import android.support.v7.app.AppCompatActivity;
+import android.arch.lifecycle.ViewModelProviders;
 import android.os.Bundle;
-import android.widget.TextView;
+import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
+import android.widget.Button;
+
+import com.gmail.yunussimulya.ghibli.api.ApiClient;
+import com.gmail.yunussimulya.ghibli.api.service.FilmService;
+import com.gmail.yunussimulya.ghibli.model.Film;
+import com.gmail.yunussimulya.ghibli.repository.FilmRepository;
+import com.gmail.yunussimulya.ghibli.viewmodel.FilmViewModel;
 
 public class MainActivity extends AppCompatActivity {
 
-    // Used to load the 'native-lib' library on application startup.
-    static {
-        System.loadLibrary("native-lib");
-    }
+    FilmViewModel viewModel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        // Example of a call to a native method
-        TextView tv = (TextView) findViewById(R.id.sample_text);
-        tv.setText(stringFromJNI());
+        viewModel = ViewModelProviders.of(this).get(FilmViewModel.class);
+        viewModel.setRepository(new FilmRepository(ApiClient.getClient().create(FilmService.class)));
+
+        initializeAction();
+        attachObserver();
     }
 
-    /**
-     * A native method that is implemented by the 'native-lib' native library,
-     * which is packaged with this application.
-     */
-    public native String stringFromJNI();
+    private void initializeAction() {
+        Button bTest = findViewById(R.id.bTest);
+        bTest.setOnClickListener((v) -> viewModel.loadFilms());
+    }
+
+    private void attachObserver() {
+        viewModel.getFilms().observe(this, (films) -> {
+            if (films != null && films.size() > 0) {
+                for (Film film : films) {
+                    Log.e("film", film.getTitle());
+                }
+            }
+        });
+
+    }
+
 }
