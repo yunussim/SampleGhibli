@@ -113,4 +113,9 @@ public class Film {
     public void setUrl(String url) {
         this.url = url;
     }
+
+    @Override
+    public String toString() {
+        return title != null ? title : "";
+    }
 }

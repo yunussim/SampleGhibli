@@ -15,6 +15,7 @@ import com.gmail.yunussimulya.ghibli.adapter.FilmAdapter;
 import com.gmail.yunussimulya.ghibli.api.ApiClient;
 import com.gmail.yunussimulya.ghibli.api.service.FilmService;
 import com.gmail.yunussimulya.ghibli.common.listener.EndlessScrollListener;
+import com.gmail.yunussimulya.ghibli.common.listener.OnItemClickListener;
 import com.gmail.yunussimulya.ghibli.model.Film;
 import com.gmail.yunussimulya.ghibli.repository.FilmRepository;
 import com.gmail.yunussimulya.ghibli.viewmodel.FilmViewModel;
@@ -38,6 +39,10 @@ public class MainActivity extends AppCompatActivity {
         swipeRefresh = findViewById(R.id.swipeRefresh);
         swipeRefresh.setOnRefreshListener(() -> viewModel.loadFilms());
         adapter = new FilmAdapter();
+        adapter.setOnItemClickListener((object, pos) -> {
+            Log.e("pos", pos + "");
+            Log.e("film", object.toString());
+        });
         initializeRecyclerView();
     }
 
