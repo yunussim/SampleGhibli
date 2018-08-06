@@ -15,22 +15,27 @@ public class Film {
     @NonNull
     @SerializedName("id")
     @Expose
+    @ColumnInfo(name = "id")
     private String id = "";
 
     @SerializedName("title")
     @Expose
+    @ColumnInfo(name = "title")
     private String title = "";
 
     @SerializedName("description")
     @Expose
+    @ColumnInfo(name = "description")
     private String description = "";
 
     @SerializedName("director")
     @Expose
+    @ColumnInfo(name = "director")
     private String director = "";
 
     @SerializedName("producer")
     @Expose
+    @ColumnInfo(name = "producer")
     private String producer = "";
 
     @SerializedName("release_date")
@@ -40,6 +45,7 @@ public class Film {
 
     @SerializedName("url")
     @Expose
+    @ColumnInfo(name = "url")
     private String url = "";
 
     public Film(@NonNull  String id, String title, String description, String director, String producer, String releaseDate, String url) {
