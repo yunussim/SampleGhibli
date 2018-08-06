@@ -12,19 +12,19 @@ import android.view.ViewGroup;
 import com.gmail.yunussimulya.ghibli.R;
 import com.gmail.yunussimulya.ghibli.model.Film;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class FilmAdapter extends RecyclerView.Adapter<FilmAdapter.FilmHolder> {
 
     private List<Film> data;
 
-    public void setData(final List<Film> films) {
+    public void setData(@NonNull final List<Film> films) {
         if (data == null) {
-            Log.e("data", "null");
-            data = films;
+            data = new ArrayList<>();
+            data.addAll(films);
             notifyItemRangeInserted(0, data.size());
         } else {
-            Log.e("data", "diff util");
             DiffUtil.DiffResult result = DiffUtil.calculateDiff(new DiffUtil.Callback() {
                 @Override
                 public int getOldListSize() {
@@ -38,18 +38,20 @@ public class FilmAdapter extends RecyclerView.Adapter<FilmAdapter.FilmHolder> {
 
                 @Override
                 public boolean areItemsTheSame(int oldItemPosition, int newItemPosition) {
-                    return data.get(oldItemPosition).getId().equalsIgnoreCase(films.get(newItemPosition).getId());
+                    return data.get(oldItemPosition).getId().equals(films.get(newItemPosition).getId());
                 }
 
                 @Override
                 public boolean areContentsTheSame(int oldItemPosition, int newItemPosition) {
                     Film oldFilm = data.get(oldItemPosition);
                     Film newFilm = films.get(newItemPosition);
-                    return oldFilm.getId().equalsIgnoreCase(newFilm.getId()) && oldFilm.getTitle().equalsIgnoreCase(newFilm.getTitle());
+                    return oldFilm.getId().equals(newFilm.getId()) && oldFilm.getTitle().equals(newFilm.getTitle());
                 }
+
             });
-            data = films;
             result.dispatchUpdatesTo(this);
+            data.clear();
+            data.addAll(films);
         }
     }
 

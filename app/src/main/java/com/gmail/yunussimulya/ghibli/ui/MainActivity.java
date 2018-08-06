@@ -14,6 +14,7 @@ import com.gmail.yunussimulya.ghibli.R;
 import com.gmail.yunussimulya.ghibli.adapter.FilmAdapter;
 import com.gmail.yunussimulya.ghibli.api.ApiClient;
 import com.gmail.yunussimulya.ghibli.api.service.FilmService;
+import com.gmail.yunussimulya.ghibli.common.listener.EndlessScrollListener;
 import com.gmail.yunussimulya.ghibli.model.Film;
 import com.gmail.yunussimulya.ghibli.repository.FilmRepository;
 import com.gmail.yunussimulya.ghibli.viewmodel.FilmViewModel;
@@ -23,6 +24,7 @@ public class MainActivity extends AppCompatActivity {
     FilmViewModel viewModel;
     SwipeRefreshLayout swipeRefresh;
     FilmAdapter adapter;
+    EndlessScrollListener scrollListener;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,11 +47,19 @@ public class MainActivity extends AppCompatActivity {
         LinearLayoutManager layoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setAdapter(adapter);
+        scrollListener = new EndlessScrollListener(layoutManager) {
+            @Override
+            public void onLoadMore() {
+                viewModel.loadMoreFilms();
+            }
+        };
+        recyclerView.addOnScrollListener(scrollListener);
     }
 
     private void attachObserver() {
         viewModel.getFilms().observe(this, (films) -> {
             swipeRefresh.setRefreshing(false);
+            scrollListener.resetState();
             if (films != null) {
                 adapter.setData(films);
             }

@@ -7,6 +7,7 @@ import android.support.annotation.NonNull;
 import com.gmail.yunussimulya.ghibli.model.Film;
 import com.gmail.yunussimulya.ghibli.repository.FilmRepository;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import retrofit2.Call;
@@ -44,7 +45,9 @@ public class FilmViewModel extends ViewModel {
             public void onResponse(@NonNull Call<List<Film>> call, @NonNull Response<List<Film>> response) {
                 if (response.isSuccessful() && response.code() == 200) {
                     List<Film> oldValue = films.getValue();
-                    if (oldValue != null && response.body() != null) oldValue.addAll(response.body());
+                    if (oldValue != null && response.body() != null) {
+                        oldValue.addAll(response.body());
+                    }
                     films.postValue(oldValue);
                 }
             }
