@@ -55,6 +55,7 @@ public class MainActivity extends AppCompatActivity {
         scrollListener = new EndlessScrollListener(layoutManager) {
             @Override
             public void onLoadMore() {
+                swipeRefresh.setRefreshing(true);
                 viewModel.loadMoreFilms();
             }
         };

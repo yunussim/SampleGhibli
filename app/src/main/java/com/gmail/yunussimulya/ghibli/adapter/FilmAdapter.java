@@ -23,9 +23,11 @@ public class FilmAdapter extends RecyclerView.Adapter<FilmAdapter.FilmHolder> {
     public void setData(@NonNull final List<Film> films) {
         if (data == null) {
             data = new ArrayList<>();
-            data.addAll(films);
+            //data.addAll(films);
+            data = films;
             notifyItemRangeInserted(0, data.size());
         } else {
+            /*
             DiffUtil.DiffResult result = DiffUtil.calculateDiff(new DiffUtil.Callback() {
                 @Override
                 public int getOldListSize() {
@@ -53,6 +55,8 @@ public class FilmAdapter extends RecyclerView.Adapter<FilmAdapter.FilmHolder> {
             data.clear();
             data.addAll(films);
             result.dispatchUpdatesTo(this);
+            */
+            notifyDataSetChanged();
         }
     }
 
