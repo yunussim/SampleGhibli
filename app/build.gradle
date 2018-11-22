@@ -36,6 +36,7 @@ android {
 def androidSupportLibVersion = "27.1.1"
 def archVersion = "1.1.1"
 def roomVersion = "1.1.1"
+def okHttpVersion = "3.12.0"
 def retrofitVersion = "2.3.0"
 def butterKnifeVersion = "8.8.1"
 
@@ -66,7 +67,8 @@ dependencies {
     implementation "com.google.code.gson:gson:2.8.4"
 
     //network
-    implementation "com.squareup.okhttp3:okhttp:3.10.0"
+    implementation "com.squareup.okhttp3:okhttp:${okHttpVersion}"
+    implementation "com.squareup.okhttp3:logging-interceptor:${okHttpVersion}"
     implementation "com.squareup.retrofit2:retrofit:${retrofitVersion}"
     implementation "com.squareup.retrofit2:converter-gson:${retrofitVersion}"
     implementation "com.squareup.retrofit2:converter-scalars:${retrofitVersion}"
